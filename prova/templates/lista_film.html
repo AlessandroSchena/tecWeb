@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block header %}
+    <a href={% url 'home0' %}>home</a>
+{% endblock %}
+{% block title %}
+    Lista film
+{% endblock %}
+{% block content %}
+    {% for i in lista_film %}
+        <h3>{{ i.title }} {{ i.production_companies }} {{ i.popularity }}</h3>
+        {% if i.poster_path != 'nan' %}
+            <img src="https://image.tmdb.org/t/p/w500/{{ i.poster_path }}" style="height:auto; width:50px; ">
+        {% endif %}
+    {% endfor %}
+{% endblock %}

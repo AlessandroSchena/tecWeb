@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock %}
+
+{% block title %}
+	lista creati
+{% endblock %}
+{% block header %}
+    <a href={% url 'home0' %}>home</a>
+    <a href="{% url 'profilo'  %}">profilo</a>
+{% endblock %}
+{% block content %}
+    <ul class="lista">
+        {% for l in lista_pag %}
+            <li>
+                <div class="card">
+                    <div class="title">
+                        {{ l.id }}. {{ l.film_id.title }}
+                    </div>
+                    <div class="container">
+                    <div class="image">
+                        {% if l.film_id.poster_path != 'nan' %}
+                            <a href={% url 'film_overview' film_id=l.film_id.id%}>
+                                <img src="https://image.tmdb.org/t/p/w500/{{ l.poster_path }}" style="height:auto; width:200px; " >
+                            </a>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+                    <div class="genre_relDate">
+                        <b>Genere</b>: {{ l.film_id.genres }}<br>
+                        <b>Data rilascio</b>: {{ l.film_id.release_date }}
+                    </div>
+                    </div>
+                    {% if user.is_authenticated %}
+                        <a href={% url 'modify_film' id=l.id %}>modifica</a>
+                        <a href={% url 'delete_film' id=l.id %}>elimina</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block footer %}
+	{% if has_prev%}
+        <a href={% url "ShowCreatedFilm" page=page|add:"-1"%}>indietro</a>
+    {% endif %}
+    {% for pag in num_pag%}
+        <a href={% url "ShowCreatedFilm" page=pag %}>{{ pag }}</a>
+    {% endfor %}
+    {% if has_next%}
+        <a href={% url "ShowCreatedFilm" page=page|add:"1" %}>avanti</a>
+    {% endif %}
+{% endblock %}

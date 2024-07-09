@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load auth_extras %}
+{% block title %}Profilo di {{ user.get_username }}{% endblock %}
+{% block header %}
+    <a href="{% url 'home0' %}">Home</a>
+{% endblock %}
+{% block content %}
+    <p>{{ user.username }}</p>
+    {% if request.user|has_group:'normale' %}
+        <a href={% url 'lista_guardati' page=1%}>Lista guardati</a>
+        <a href={% url 'lista_DaGuardare' page=1%}>Lista da guardare</a>
+    {% elif request.user|has_group:'creatore' %}
+        <a href={% url 'ShowCreatedFilm' page=1%}>lista film creati</a>
+    {% endif %}
+{% endblock %}

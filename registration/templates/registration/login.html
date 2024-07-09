@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}login{% endblock %}
+{% block header %}
+    {% if "notok" in request.GET.auth %}
+        Si è arrivati qui perchè non si dispone dei permessi necessari per il servizio scelto
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <form method="post"> {% csrf_token %}
+        {{form}}
+    <input type="submit" class="btn btn-success" value="Esegui login">
+  </form>
+{% endblock %}

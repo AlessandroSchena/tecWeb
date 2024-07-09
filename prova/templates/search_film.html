@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}<h1>Search</h1>{% endblock %}
+{% block header %} <a href={% url 'home0' %}>home</a>  <a href={% url 'list' %}>lista film</a>{% endblock %}
+{% block content %}
+    <form action='/prova/search/' method="post"> {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="search">
+    </form>
+{% endblock %}

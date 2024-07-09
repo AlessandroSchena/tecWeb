@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load auth_extras %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock %}
+
+{% block title %} {{ title }} {% endblock %}
+{% block header %}
+    <!--<h1>{{ response }}</h1>-->
+
+    {% if user.is_authenticated%}
+        {% if request.user|has_group:'normale' %}
+            <a href={% url 'list' %}>Lista film</a>
+            <a href={% url 'search'%}>search film</a>
+        {% endif %}
+        <a href={% url 'profilo' %}>Profilo utente</a>
+        <form action="{% url 'logout' %}" method="post"> {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+        {% if user.is_superuser %}
+            <a href={% url 'registerCreatore' %}>registra creatore</a>
+        {% endif %}
+    {% else %}
+        <a href={% url 'list' %}>Lista film</a>
+        <a href={% url 'search'%}>search film</a>
+        <a href={% url 'register'%}>registrati</a>
+        <a href={% url 'login'%}>login</a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if request.user|has_group:'creatore' %}
+        <a href={% url 'create_film' %}>crea film</a>
+    {% else %}
+        <ul class="lista">
+            {% for l in lista_pag %}
+                <li class="li_lista">
+                    <div class="card">
+                        <div class="title">
+                            {{ l.title }}
+                        </div>
+                        <div class="container">
+                        <div class="image">
+                            {% if l.poster_path != 'nan' %}
+                                <a href={% url 'film_overview' film_id=l.id%}>
+                                    <img src="https://image.tmdb.org/t/p/w500/{{ l.poster_path }}" style="height:auto; width:200px; " >
+                                </a>
+                            {% else %}
+                                <img src="{{ l.poster_img }}" style="height:auto; width:200px; ">
+                            {% endif %}
+                        </div>
+                        <div class="genre_relDate">
+                            <b>Genere</b>: {{ l.genres }}<br>
+                            <b>Data rilascio</b>: {{ l.release_date }}
+                        </div>
+                        </div>
+                        {% if user.is_authenticated %}
+                            {% if l.id not in guardati %}
+                                <a href={% url "add_guardati" id_film=l.id %}> aggiungi ai guardati</a>
+                            {% else %}
+                                Già in lista guardati
+                            {% endif %}
+                            {% if daGuardare is None %}
+                                <a href={% url "add_DaGuardare" id_film=l.id %}>aggiungi a lista da guardare</a>
+                            {% else %}
+                                {% if l.id not in guardati and l.id not in daGuardare %}
+                                    <a href={% url "add_DaGuardare" id_film=l.id %}>aggiungi a lista da guardare</a>
+                                {% endif %}
+                            {% endif %}
+
+                        {% endif %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="page">
+            {% if has_prev%}
+                <a href={% url "home" page|add:"-1" %}>indietro</a>
+            {% endif %}
+            {% for pag in num_pag%}
+                <a href={% url "home" pag %}>{{ pag }}</a>
+            {% endfor %}
+            {% if has_next%}
+                <a href={% url "home" page|add:"1" %}>avanti</a>
+            {% endif %}
+        </div>
+        {% if request.user|has_group:'normale' %}
+            <br><br>Altri utenti hanno visto anche<br>
+            <ul class="lista_rec">
+                {% for r in recommend%}
+                    <li class="li_lista_rec">
+                        <a href={% url 'film_overview' film_id=r.id%}>
+                            <img src="https://image.tmdb.org/t/p/w500/{{ r.poster_path }}" style="height:auto; width:200px; " >
+                        </a>
+                        {% if r.id not in daGuardare%}
+                            <p><a href={% url "add_DaGuardare" id_film=r.id %}>aggiungi a lista da guardare</a></p>
+                        {% else %}
+                            <p>Già in lista da guardare</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+
+{% block footer %}
+
+{% endblock %}

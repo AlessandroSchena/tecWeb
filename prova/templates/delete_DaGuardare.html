@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Elimina da guardare{% endblock %}
+{% block header %}
+    <a href={% url 'profilo' %}>Profilo utente</a>
+    <a href={% url 'lista_DaGuardare' page=1 %}>Lista da guardare</a>
+{% endblock %}
+{% block content %}
+    {{ msg }}
+{% endblock %}

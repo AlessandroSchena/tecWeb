@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock %}
+{% block title %}Lista da guardare{% endblock %}
+{% block header %}
+    <a href={% url 'profilo' %}>Profilo utente</a>
+{% endblock %}
+{% block content %}
+    {% if lista_pag %}
+        <ul class="lista">
+            {% for l in lista_pag %}
+                <li>
+                    <div class="card">
+                        <div class="title">
+                            {{ l.film_id.title }}
+                        </div>
+                        <div class="container">
+                        <div class="image">
+                            {% if i.poster_path != 'nan' %}
+                                <img src="https://image.tmdb.org/t/p/w500/{{ l.film_id.poster_path }}" style="height:auto; width:200px; ">
+                            {% endif %}
+                        </div>
+                        <div class="genre_relDate">
+                            <b>Genere</b>: {{ l.film_id.genres }}<br>
+                            <b>Data rilascio</b>: {{ l.film_id.release_date }}
+                        </div>
+
+                        </div>
+                        <button type="button">
+                            <a href={% url "delete_filmDaGuardare" id=l.id %}>Elimina</a>
+                        </button>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        Lista da guardare vuota
+    {% endif %}
+{% endblock %}

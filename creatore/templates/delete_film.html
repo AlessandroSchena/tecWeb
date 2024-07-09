@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}
+	delete film
+{% endblock %}
+{% block header %}
+    <a href={% url 'ShowCreatedFilm' page=1%}>Torna alla lista creati</a>
+{% endblock %}
+{% block content %}
+	{{ msg }}
+{% endblock %}

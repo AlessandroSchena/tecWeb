@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'style_film.css' %}">
+{% endblock %}
+{% block title %}{{ film.title }}{% endblock %}
+{% block header %}
+    <a href={% url 'home0' %}>home</a>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="column">
+            <img src="https://image.tmdb.org/t/p/w500/{{ film.poster_path }}" style="height:auto; width:200px; ">
+        </div>
+        <div class="column1">
+            <b>Titolo:</b> {{ film.title }}<br>
+            <b>Data uscita:</b> {{ film.release_date }}<br>
+            <b>Genere:</b> {{ film.genres }}<br>
+            <b>Trama:</b> {{ film.overview }}<br>
+            <b>Durata:</b> {{ film.runtime }}<br>
+        </div>
+    </div>
+{% endblock %}

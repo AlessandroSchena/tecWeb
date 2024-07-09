@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+{% endblock %}
+
+{% block header %}
+    <a href={% url 'search' %}>search</a>
+{% endblock %}
+
+{% block content %}
+    <ul class="lista">
+        {% for l in lista_pag %}
+            <li>
+                <div class="card">
+                    <div class="title">
+                        {{ l.title }}
+                    </div>
+                    <div class="container">
+                    <div class="image">
+                        {% if l.poster_path != 'nan' %}
+                            <a href={% url 'film_overview' film_id=l.id%}>
+                                <img src="https://image.tmdb.org/t/p/w500/{{ l.poster_path }}" style="height:auto; width:200px; " >
+                            </a>
+                        {% else %}
+
+                        {% endif %}
+                    </div>
+                    <div class="genre_relDate">
+                        <b>Genere</b>: {{ l.genres }}<br>
+                        <b>Data rilascio</b>: {{ l.release_date }}
+                    </div>
+                    </div>
+                    {% if user.is_authenticated %}
+                        <a href={% url "add_guardati" id_film=l.id %}> aggiungi ai guardati</a>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+{% block footer %}
+    {% if has_prev%}
+        <a href={% url "list2" page=page|add:"-1" year=year genre=genre%}>indietro</a>
+    {% endif %}
+    {% for pag in num_pag%}
+        <a href={% url "list2" page=pag year=year genre=genre%}>{{ pag }}</a>
+    {% endfor %}
+    {% if has_next%}
+        <a href={% url "list2" page=page|add:"1" year=year genre=genre%}>avanti</a>
+    {% endif %}
+{% endblock %}

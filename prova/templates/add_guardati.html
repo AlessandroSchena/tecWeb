@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}guardati{% endblock %}
+{% block header %}
+    <a href={% url 'home0' %}>torna alla home</a>
+{% endblock %}
+{% block content %}
+    {{ msg }}<br>
+    {% if not guardati.voto%}
+        <center>
+            <form action="/prova/add_guardati/{{ id_film }}/" method="post">{% csrf_token %}
+                {{ form }}
+                <p id="rangeValue">10</p>
+                <input type="submit" value="vota">
+            </form>
+        </center>
+    {% endif %}
+
+
+{% endblock %}

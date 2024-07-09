@@ -1,0 +1,21 @@
+.column {
+  float: left;
+  width: auto;
+  padding: 15px;
+}
+
+.column1 {
+  float: left;
+  width: 500px;
+  padding: 15px;
+}
+
+.row{
+  display: flex;
+}
+
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
+}

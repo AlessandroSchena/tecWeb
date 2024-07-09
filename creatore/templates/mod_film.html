@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block header %}
+    <a href={% url 'ShowCreatedFilm' page=1%}> lista creati</a>
+{% endblock %}
+{% block content %}
+    {{ msg }}
+{% endblock %}

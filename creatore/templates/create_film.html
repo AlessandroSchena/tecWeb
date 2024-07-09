@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}
+	Create film
+{% endblock %}
+{% block header %}
+    <a href={% url 'profilo' %}>home</a>
+{% endblock %}
+{% block content %}
+	<form action="/creatore/create_film/" method="post">
+    {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="create">
+    </form>
+{% endblock %}
